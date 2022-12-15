@@ -1,8 +1,12 @@
 import os
 import time
 
-def rob(nums) -> int:
-    pass
+def rob(nums, i) -> int:
+    
+    if (i < len(nums)):
+        return max( rob(nums, i+1) , nums[i] + rob(nums, i+2))
+    else:
+        return 0
 
 path = "testcase"
 class TestCase:
@@ -27,16 +31,24 @@ def main():
     for file in os.listdir():
         if file.endswith(".txt"):
             testCase.append(TestCase(file))
-    # TODO: start timer
-    start = time.perf_counter_ns()
+    runtime = []
     for test in testCase:
-        result = rob(test.input)
+        # TODO: start timer
+        start = time.perf_counter_ns()
+
+        result = rob(test.input, 0)
+
+        # TODO: stop timer
+        end = time.perf_counter_ns()
+
         print("for",test.name,"the value is",result)
-
-    # TODO: stop timer
-    end = time.perf_counter_ns()
-
-    print("total runtime",end - start,"ns")
+        print(test.name,"took",end-start,"ns\n")
+        runtime.append(end-start)
+    
+    total_runtime= 0
+    for each in runtime:
+        total_runtime += each
+    print("total runtime",total_runtime,"ns")
 
 
 
